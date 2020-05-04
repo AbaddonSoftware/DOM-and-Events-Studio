@@ -43,7 +43,6 @@ function init() {
         if (positionX > 0 - (shuttleBackground.getBoundingClientRect().width / 2)) {
             positionX -= 10;
             rocket.style.transform = "translateX(" + positionX + "px)";
-            event.preventDefault();
         }
     });
 
@@ -51,7 +50,6 @@ function init() {
         if (positionX + Number(rocket.style.width) < shuttleBackground.getBoundingClientRect().width / 2) {
             positionX += 10;
             rocket.style.transform = "translateX(" + positionX + "px)";
-            event.preventDefault();
         }
     });
 
