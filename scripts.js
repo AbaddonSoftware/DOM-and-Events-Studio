@@ -14,10 +14,20 @@ function init() {
     let shuttleBackground = document.getElementById("shuttleBackground");
     let positionX = 0;
 
+    document.addEventListener("click", function(event) {
+        if (Number(spaceShuttleHeight.innerHTML) <= 0) {
+            positionX = 0;
+            rocket.style.transform = "translate(0px)";
+            shuttleBackground.style.backgroundColor = "green";
+        }
+        if (Number(spaceShuttleHeight.innerHTML) != 0) {
+            shuttleBackground.style.backgroundColor = "blue";
+        }
+    });
+
     takeOff.addEventListener("click", function(event) {
         if (confirm("Confirm that the shuttle is ready for takeoff.")) {
             flightStatus.innerHTML = "Shuttle in flight.";
-            shuttleBackground.style.backgroundColor = "blue";
             spaceShuttleHeight.innerHTML = (Number(spaceShuttleHeight.innerHTML) + 10000).toString();
         }
     });
@@ -25,17 +35,13 @@ function init() {
     land.addEventListener("click", function(event) {
         alert("The shuttle is landing. Landing gear engaged.");
         flightStatus.innerHTML = "The shuttle has landed.";
-        shuttleBackground.style.backgroundColor = "green";
         spaceShuttleHeight.innerHTML = "0";
-        resetPosition();
     });
 
     missionAbort.addEventListener("click", function(event) {
         if (confirm("Confirm that you want to abort the mission.")) {
             flightStatus.innerHTML = "Mission Aborted.";
-            shuttleBackground.style.backgroundColor = "green";
             spaceShuttleHeight.innerHTML = "0";
-            resetPosition();
         }
     });
 
@@ -43,6 +49,7 @@ function init() {
         if (positionX > 0 - (shuttleBackground.getBoundingClientRect().width / 2)) {
             positionX -= 10;
             rocket.style.transform = "translateX(" + positionX + "px)";
+            event.stopPropagation();
         }
     });
 
@@ -50,6 +57,7 @@ function init() {
         if (positionX + Number(rocket.style.width) < shuttleBackground.getBoundingClientRect().width / 2) {
             positionX += 10;
             rocket.style.transform = "translateX(" + positionX + "px)";
+            event.stopPropagation();
         }
     });
 
@@ -62,15 +70,7 @@ function init() {
         if (height > 0) {
             spaceShuttleHeight.innerHTML = (Number(spaceShuttleHeight.innerHTML) - 10000).toString();
         }
-        if (Number(spaceShuttleHeight.innerHTML) <= 0) {
-            resetPosition();
-        }
     });
-
-    function resetPosition() {
-        positionX = 0;
-        rocket.style.transform = "translate(0px)";
-    }
 }
 
 
