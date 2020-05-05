@@ -15,15 +15,19 @@ function init() {
     let positionX = 0;
 
     document.addEventListener("click", function(event) {
-        if (Number(spaceShuttleHeight.innerHTML) <= 0) {
-            positionX = 0;
-            rocket.style.transform = "translate(0px)";
-            shuttleBackground.style.backgroundColor = "green";
-            flightStatus.innerHTML = "The shuttle has landed.";
-        }
-        if (Number(spaceShuttleHeight.innerHTML) != 0) {
-            shuttleBackground.style.backgroundColor = "blue";
-            flightStatus.innerHTML = "Shuttle in flight.";
+        switch (Number(spaceShuttleHeight.innerHTML)) {
+            case 0:
+                if (flightStatus.innerHTML !== "Mission Aborted.") {
+                    flightStatus.innerHTML = "The shuttle has landed.";
+                }
+                positionX = 0;
+                rocket.style.transform = "translate(0px)";
+                shuttleBackground.style.backgroundColor = "green";
+                break;
+            default:
+                shuttleBackground.style.backgroundColor = "blue";
+                flightStatus.innerHTML = "Shuttle in flight";
+                break;
         }
     });
 
@@ -41,9 +45,7 @@ function init() {
     missionAbort.addEventListener("click", function(event) {
         if (confirm("Confirm that you want to abort the mission.")) {
             flightStatus.innerHTML = "Mission Aborted.";
-            shuttleBackground.style.backgroundColor = "green";
             spaceShuttleHeight.innerHTML = "0";
-            event.stopPropagation();
         }
     });
 
@@ -51,16 +53,17 @@ function init() {
         if (positionX > 0 - (shuttleBackground.getBoundingClientRect().width / 2)) {
             positionX -= 10;
             rocket.style.transform = "translateX(" + positionX + "px)";
-            event.stopPropagation();
+
         }
+        event.stopPropagation();
     });
 
     right.addEventListener("click", function(event) {
         if (positionX + Number(rocket.style.width) < shuttleBackground.getBoundingClientRect().width / 2) {
             positionX += 10;
             rocket.style.transform = "translateX(" + positionX + "px)";
-            event.stopPropagation();
         }
+        event.stopPropagation();
     });
 
     up.addEventListener("click", function(event) {
