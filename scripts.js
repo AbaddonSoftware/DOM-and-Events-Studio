@@ -19,29 +19,31 @@ function init() {
             positionX = 0;
             rocket.style.transform = "translate(0px)";
             shuttleBackground.style.backgroundColor = "green";
+            flightStatus.innerHTML = "The shuttle has landed.";
         }
         if (Number(spaceShuttleHeight.innerHTML) != 0) {
             shuttleBackground.style.backgroundColor = "blue";
+            flightStatus.innerHTML = "Shuttle in flight.";
         }
     });
 
     takeOff.addEventListener("click", function(event) {
         if (confirm("Confirm that the shuttle is ready for takeoff.")) {
-            flightStatus.innerHTML = "Shuttle in flight.";
             spaceShuttleHeight.innerHTML = (Number(spaceShuttleHeight.innerHTML) + 10000).toString();
         }
     });
 
     land.addEventListener("click", function(event) {
         alert("The shuttle is landing. Landing gear engaged.");
-        flightStatus.innerHTML = "The shuttle has landed.";
         spaceShuttleHeight.innerHTML = "0";
     });
 
     missionAbort.addEventListener("click", function(event) {
         if (confirm("Confirm that you want to abort the mission.")) {
             flightStatus.innerHTML = "Mission Aborted.";
+            shuttleBackground.style.backgroundColor = "green";
             spaceShuttleHeight.innerHTML = "0";
+            event.stopPropagation();
         }
     });
 
