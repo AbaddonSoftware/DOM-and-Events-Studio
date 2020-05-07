@@ -14,24 +14,34 @@ function init() {
     let shuttleBackground = document.getElementById("shuttleBackground");
     let positionX = 0;
     let positionY = 0;
+    let adjustX = 0;
+    let adjustY = 0;
 
+    document.addEventListener("keyup", function(event) {
+        handleKeys(event.type, event.keyCode);
+    });
 
     document.addEventListener("keydown", function(event) {
-        switch (event.keyCode) {
+        handleKeys(event.type, event.keyCode);
+    });
+
+    function handleKeys(eventType, eventKey) {
+        switch (eventKey) {
             case 37:
-                moveRocket(-10, 0);
+                eventType === 'keydown' ? adjustX = -10 : adjustX = 0;
                 break;
             case 38:
-                moveRocket(0, -10);
+                eventType === 'keydown' ? adjustY = -10 : adjustY = 0;
                 break;
             case 39:
-                moveRocket(10, 0);
+                eventType === 'keydown' ? adjustX = 10 : adjustX = 0;
                 break;
             case 40:
-                moveRocket(0, 10);
+                eventType === 'keydown' ? adjustY = 10 : adjustY = 0;
                 break;
         }
-    });
+        moveRocket(adjustX, adjustY);
+    }
 
     document.addEventListener("click", function(event) {
         switch (Number(spaceShuttleHeight.innerHTML)) {
