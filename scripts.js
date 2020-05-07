@@ -13,6 +13,7 @@ function init() {
     let flightStatus = document.getElementById("flightStatus");
     let shuttleBackground = document.getElementById("shuttleBackground");
     let positionX = 0;
+    let positionY = 0;
 
     document.addEventListener("click", function(event) {
         switch (Number(spaceShuttleHeight.innerHTML)) {
@@ -50,16 +51,15 @@ function init() {
     });
 
     left.addEventListener("click", function(event) {
-        if (positionX > 0 - (shuttleBackground.getBoundingClientRect().width / 2)) {
+        if (rocket.getBoundingClientRect().left > (shuttleBackground.getBoundingClientRect().left)) {
             positionX -= 10;
             rocket.style.transform = "translateX(" + positionX + "px)";
-
         }
         event.stopPropagation();
     });
 
     right.addEventListener("click", function(event) {
-        if (positionX + Number(rocket.style.width) < shuttleBackground.getBoundingClientRect().width / 2) {
+        if (rocket.getBoundingClientRect().right < shuttleBackground.getBoundingClientRect().right) {
             positionX += 10;
             rocket.style.transform = "translateX(" + positionX + "px)";
         }
@@ -68,9 +68,17 @@ function init() {
 
     up.addEventListener("click", function(event) {
         spaceShuttleHeight.innerHTML = (Number(spaceShuttleHeight.innerHTML) + 10000).toString();
+        if (rocket.getBoundingClientRect().top > shuttleBackground.getBoundingClientRect().top) {
+            positionY -= 10;
+            rocket.style.transform = "translateY(" + positionY + "px)";
+        }
     });
 
     down.addEventListener("click", function(event) {
+        if (rocket.getBoundingClientRect().bottom < shuttleBackground.getBoundingClientRect().bottom) {
+            positionY += 10;
+            rocket.style.transform = "translateY(" + positionY + "px)";
+        }
         let height = Number(spaceShuttleHeight.innerHTML);
         if (height > 0) {
             spaceShuttleHeight.innerHTML = (Number(spaceShuttleHeight.innerHTML) - 10000).toString();
