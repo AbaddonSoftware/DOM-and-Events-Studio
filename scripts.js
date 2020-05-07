@@ -15,8 +15,22 @@ function init() {
     let positionX = 0;
     let positionY = 0;
 
-    window.addEventListener("resize", function(event) {
 
+    document.addEventListener("keydown", function(event) {
+        switch (event.keyCode) {
+            case 37:
+                moveRocket(-10, 0);
+                break;
+            case 38:
+                moveRocket(0, -10);
+                break;
+            case 39:
+                moveRocket(10, 0);
+                break;
+            case 40:
+                moveRocket(0, 10);
+                break;
+        }
     });
 
     document.addEventListener("click", function(event) {
