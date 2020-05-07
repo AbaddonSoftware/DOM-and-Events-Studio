@@ -15,6 +15,10 @@ function init() {
     let positionX = 0;
     let positionY = 0;
 
+    window.addEventListener("resize", function(event) {
+
+    });
+
     document.addEventListener("click", function(event) {
         switch (Number(spaceShuttleHeight.innerHTML)) {
             case 0:
@@ -52,39 +56,47 @@ function init() {
     });
 
     left.addEventListener("click", function(event) {
-        if (rocket.getBoundingClientRect().left > (shuttleBackground.getBoundingClientRect().left)) {
-            positionX -= 10;
-            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
-        }
+        moveRocket(-10, 0);
         event.stopPropagation();
     });
 
     right.addEventListener("click", function(event) {
-        if (rocket.getBoundingClientRect().right < shuttleBackground.getBoundingClientRect().right) {
-            positionX += 10;
-            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
-        }
+        moveRocket(10, 0);
         event.stopPropagation();
     });
 
     up.addEventListener("click", function(event) {
         spaceShuttleHeight.innerHTML = (Number(spaceShuttleHeight.innerHTML) + 10000).toString();
-        if (rocket.getBoundingClientRect().top > shuttleBackground.getBoundingClientRect().top) {
-            positionY -= 10;
-            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
-        }
+        moveRocket(0, -10);
+
     });
 
     down.addEventListener("click", function(event) {
-        if (rocket.getBoundingClientRect().bottom < shuttleBackground.getBoundingClientRect().bottom) {
-            positionY += 10;
-            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
-        }
+        moveRocket(0, 10);
         let height = Number(spaceShuttleHeight.innerHTML);
         if (height > 0) {
             spaceShuttleHeight.innerHTML = (Number(spaceShuttleHeight.innerHTML) - 10000).toString();
         }
     });
+
+    function boxCollisionCheck(xAdjust, yAdjust) {
+        let rocketRect = rocket.getBoundingClientRect();
+        let parentRect = rocket.parentElement.getBoundingClientRect();
+        let boundsCheck =
+            (rocketRect.left + xAdjust >= parentRect.left) &&
+            (rocketRect.right + xAdjust <= parentRect.right) &&
+            (rocketRect.bottom + yAdjust <= parentRect.bottom) &&
+            (rocketRect.top + yAdjust >= parentRect.top);
+        return boundsCheck;
+    }
+
+    function moveRocket(xAdjust, yAdjust) {
+        if (boxCollisionCheck(xAdjust, yAdjust)) {
+            positionX += xAdjust;
+            positionY += yAdjust;
+            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
+        }
+    }
 }
 
 
