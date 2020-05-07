@@ -22,7 +22,8 @@ function init() {
                     flightStatus.innerHTML = "The shuttle has landed.";
                 }
                 positionX = 0;
-                rocket.style.transform = "translate(0px)";
+                positionY = 0;
+                rocket.style.transform = "translate(0px, 0px)";
                 shuttleBackground.style.backgroundColor = "green";
                 break;
             default:
@@ -53,7 +54,7 @@ function init() {
     left.addEventListener("click", function(event) {
         if (rocket.getBoundingClientRect().left > (shuttleBackground.getBoundingClientRect().left)) {
             positionX -= 10;
-            rocket.style.transform = "translateX(" + positionX + "px)";
+            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
         }
         event.stopPropagation();
     });
@@ -61,7 +62,7 @@ function init() {
     right.addEventListener("click", function(event) {
         if (rocket.getBoundingClientRect().right < shuttleBackground.getBoundingClientRect().right) {
             positionX += 10;
-            rocket.style.transform = "translateX(" + positionX + "px)";
+            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
         }
         event.stopPropagation();
     });
@@ -70,14 +71,14 @@ function init() {
         spaceShuttleHeight.innerHTML = (Number(spaceShuttleHeight.innerHTML) + 10000).toString();
         if (rocket.getBoundingClientRect().top > shuttleBackground.getBoundingClientRect().top) {
             positionY -= 10;
-            rocket.style.transform = "translateY(" + positionY + "px)";
+            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
         }
     });
 
     down.addEventListener("click", function(event) {
         if (rocket.getBoundingClientRect().bottom < shuttleBackground.getBoundingClientRect().bottom) {
             positionY += 10;
-            rocket.style.transform = "translateY(" + positionY + "px)";
+            rocket.style.transform = `translate(${positionX}px, ${positionY}px)`;
         }
         let height = Number(spaceShuttleHeight.innerHTML);
         if (height > 0) {
